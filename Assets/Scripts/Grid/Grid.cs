@@ -46,11 +46,12 @@ public class Grid : MonoBehaviour {
 		recT.sizeDelta = size;
 		if(size != oldSize || spaces == null) {
 			ChangeSize((int)size.x, (int)size.y);
-			Vector3 newPos = trans.position;
-			newPos.y = size.y;
-			trans.position = newPos;
 		}
 		oldSize = size;
+
+		Vector3 newPos = trans.position;
+		newPos.y = (int)size.y;
+		trans.position = newPos;
 	}
 
 	private void ChangeSize(int newW, int newH) {
@@ -82,8 +83,8 @@ public class Grid : MonoBehaviour {
 	
 		Debug.Log(mousePos + "PRE");
 
-		mousePos.x = Mathf.Max(GridWidth - 1, Mathf.Min(0, mousePos.x));
-		mousePos.y = Mathf.Max(GridHeight - 1, Mathf.Min(0, mousePos.y));
+		mousePos.x = GetBoundedXCortinate(mousePos.x) - 1;
+		mousePos.y = GetBoundedXCortinate(mousePos.y) - 1;
 
 		Debug.Log(mousePos);
 
@@ -121,7 +122,7 @@ public class Grid : MonoBehaviour {
 		GridSpace deletedSpace = spaces[x, y];
 		if(deletedSpace == null) return;
 		spaces[x, y] = null;
-		Destroy(deletedSpace.gameObject);
+		DestroyImmediate(deletedSpace.gameObject);
 	}
 
 	public int GetBoundedXCortinate(float x) {
