@@ -79,11 +79,16 @@ public class Grid : MonoBehaviour {
 	}
 
 	public void AddGridSpaceFromMousePos(Vector2 mousePos) {
+	
+		Debug.Log(mousePos + "PRE");
+
+		mousePos.x = Mathf.Max(GridWidth - 1, Mathf.Min(0, mousePos.x));
+		mousePos.y = Mathf.Max(GridHeight - 1, Mathf.Min(0, mousePos.y));
 
 		Debug.Log(mousePos);
 
-		AddGridSpace(GetBoundedXCortinate(mousePos.x), 
-		             GetBoundedYCortinate(mousePos.y), 
+		AddGridSpace((int)mousePos.x, 
+		             (int)mousePos.y, 
 		             brushes[selectedBrushIndex]);
 	}
 
@@ -99,12 +104,12 @@ public class Grid : MonoBehaviour {
 		Transform newSpaceT = newSpace.transform;
 		newSpaceT.SetParent(trans, false);
 		Vector3 center = brush.sprite.bounds.center;
-		newSpaceT.position = new Vector3(x + center.x / 2, GridHeight - y + center.y / 2, 0.0f);
+		newSpaceT.position = new Vector3(x + 0.5f, GridHeight - y + 0.5f, 0.0f);
 		float width = 1.0f / brush.sprite.bounds.size.x;
 		float height = 1.0f / brush.sprite.bounds.size.y;
 		newSpaceT.localScale = new Vector3(width, height, 1.0f);
 
-		newSpace.AddComponent<GridSpace>();
+		spaces[x, y] = newSpace.AddComponent<GridSpace>();
 
 		SpriteRenderer spriteRender =  newSpace.AddComponent<SpriteRenderer>();
 		spriteRender.sprite = brush.sprite;
