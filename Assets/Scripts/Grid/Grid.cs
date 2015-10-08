@@ -42,7 +42,6 @@ public class Grid : MonoBehaviour {
 		trans = transform;
 		recT = GetComponent<RectTransform>();
 		recT.pivot = Vector2.zero;
-		recT.sizeDelta = new Vector2(1, 1);
 
 		tilesTrans = CheckAddTileLayer();
 	}
