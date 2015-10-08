@@ -22,7 +22,7 @@ public class Grid : MonoBehaviour {
 
 	//General stuff
 
-	private GridSpace[,] spaces;
+	private GameObject[,] spaces;
 
 	private Vector2 oldSize;
 	private Transform trans;
@@ -63,13 +63,13 @@ public class Grid : MonoBehaviour {
 		if(newW == oldW && newH == oldH) return;
 
 		if(spaces != null) {
-			GridSpace[,] oldSpaces = spaces;//Save old Grid
+			GameObject[,] oldSpaces = spaces;//Save old Grid
 			for(int x = newW - 1; x < oldW; x++) {
 				for(int y = newH - 1; y < oldH; y++) {
 					RemoveGridSpace(x, y);
 				}
 			}
-			spaces = new GridSpace[newW, newH];//Set up new Grid
+			spaces = new GameObject[newW, newH];//Set up new Grid
 			
 			//Copy over new Squares
 			for(int x = 0; x < newW; x++) {
@@ -81,7 +81,7 @@ public class Grid : MonoBehaviour {
 				}
 			}
 		} else {
-			spaces = new GridSpace[newW, newH];//Set up new Grid
+			spaces = new GameObject[newW, newH];//Set up new Grid
 		}
 	}
 
@@ -112,19 +112,19 @@ public class Grid : MonoBehaviour {
 		float height = 1.0f / brush.sprite.bounds.size.y;
 		newSpaceT.localScale = new Vector3(width, height, 1.0f);
 
-		spaces[x, y] = newSpace.AddComponent<GridSpace>();
-
 		SpriteRenderer spriteRender =  newSpace.AddComponent<SpriteRenderer>();
 		spriteRender.sprite = brush.sprite;
+
+		spaces[x, y] = newSpace;
 
 		return true;
 	}
 
 	public void RemoveGridSpace(int x, int y) {
-		GridSpace deletedSpace = spaces[x, y];
+		GameObject deletedSpace = spaces[x, y];
 		if(deletedSpace == null) return;
 		spaces[x, y] = null;
-		DestroyImmediate(deletedSpace.gameObject);
+		DestroyImmediate(deletedSpace);
 	}
 
 	public Transform CheckAddTileLayer() {
