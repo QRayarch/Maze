@@ -2,6 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 
+
+public enum BrushType {
+	NON_COLLIDE,
+	COLLIDE,
+}
+
 [ExecuteInEditMode]
 [RequireComponent(typeof(RectTransform))]
 public class Grid : MonoBehaviour {
@@ -14,6 +20,7 @@ public class Grid : MonoBehaviour {
 	[System.Serializable]
 	public class GridBrush {
 		public Sprite sprite;
+		public BrushType type = BrushType.NON_COLLIDE;
 
 		public bool HasSprite {
 			get { return sprite != null; }
@@ -31,8 +38,11 @@ public class Grid : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		selectedBrushIndex = 0;
 		trans = transform;
 		recT = GetComponent<RectTransform>();
+		recT.pivot = Vector2.zero;
+		recT.sizeDelta = new Vector2(1, 1);
 
 		tilesTrans = CheckAddTileLayer();
 	}
@@ -86,6 +96,7 @@ public class Grid : MonoBehaviour {
 	}
 
 	public bool AddGridSpace(int x, int y) {
+		if(selectedBrushIndex < 0 || selectedBrushIndex >= brushes.Count) return false;
 		return AddGridSpace(x, y, brushes[selectedBrushIndex]);
 	}
 
@@ -116,6 +127,12 @@ public class Grid : MonoBehaviour {
 		spriteRender.sprite = brush.sprite;
 
 		spaces[x, y] = newSpace;
+
+		switch(brush.type) {
+			case BrushType.COLLIDE :
+				newSpace.AddComponent<BoxCollider2D>();
+				break;
+		}
 
 		return true;
 	}

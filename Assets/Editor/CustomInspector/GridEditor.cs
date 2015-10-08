@@ -8,8 +8,6 @@ using System.Collections.Generic;
 [CanEditMultipleObjects]
 public class GridEditor : Editor {
 
-	private GUIStyle style = new GUIStyle();
-
 	private ReorderableList list;
 
 	private void OnEnable() {
@@ -21,8 +19,10 @@ public class GridEditor : Editor {
 
 	private void DrawBrush(Rect rect, int index, bool isActive, bool isFocused) {
 		SerializedProperty brush = list.serializedProperty.GetArrayElementAtIndex(index);
+		rect.width /= 2;
 		EditorGUI.PropertyField(rect, brush.FindPropertyRelative("sprite"));
-		//style.normal.background = brush.FindPropertyRelative("sprite");
+		rect.x += rect.width / 2;
+		EditorGUI.PropertyField(rect, brush.FindPropertyRelative("type"));
 	}
 
 	private void SelectElemet(ReorderableList l) {
