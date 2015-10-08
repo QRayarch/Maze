@@ -17,9 +17,7 @@ public class GridEditor : Editor {
 		                           , false, true, true, true);
 		list.drawElementCallback += DrawBrush;
 		list.onSelectCallback += SelectElemet;
-
 	}
-
 
 	private void DrawBrush(Rect rect, int index, bool isActive, bool isFocused) {
 		SerializedProperty brush = list.serializedProperty.GetArrayElementAtIndex(index);
@@ -44,6 +42,20 @@ public class GridEditor : Editor {
 		}
 	}
 
+	private void AddSpaceAtMouse(Event e, Grid grid) {
+		Vector2 pos = e.mousePosition;
+		//Find mouse relative to scene view
+		pos.y = SceneView.currentDrawingSceneView.camera.pixelHeight - pos.y;
+		pos = SceneView.currentDrawingSceneView.camera.ScreenToWorldPoint(pos);
+
+		//Fix cordinates to grid
+		pos.x = Mathf.Min(grid.GridWidth - 1,  Mathf.Max(0, (int)(pos.x)));
+		pos.y = Mathf.Min(grid.GridHeight - 1,  Mathf.Max(0, (int)(pos.y)));
+
+		//AddTile
+		grid.AddGridSpace((int)pos.x, (int)pos.y);
+	}
+
 	void OnSceneGUI() {
 		Event e = Event.current;
 		Grid grid = target as Grid;
@@ -51,9 +63,12 @@ public class GridEditor : Editor {
 		switch(e.type) {
 			case EventType.MouseUp :
 				if(e.button == 0) {
-					Vector2 pos = e.mousePosition;
-					pos = SceneView.currentDrawingSceneView.camera.ScreenToWorldPoint(pos);
-					grid.AddGridSpaceFromMousePos(pos);
+					AddSpaceAtMouse(e, grid);
+				}
+				break;
+			case EventType.MouseDrag :
+				if(e.button == 0) {
+					AddSpaceAtMouse(e, grid);
 				}
 				break;
 		}

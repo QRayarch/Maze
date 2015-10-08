@@ -27,11 +27,14 @@ public class Grid : MonoBehaviour {
 	private Vector2 oldSize;
 	private Transform trans;
 	private RectTransform recT;
+	private Transform tilesTrans;
 
 	// Use this for initialization
 	void Start () {
 		trans = transform;
 		recT = GetComponent<RectTransform>();
+
+		tilesTrans = CheckAddTileLayer();
 	}
 	
 	// Update is called once per frame
@@ -48,10 +51,8 @@ public class Grid : MonoBehaviour {
 			ChangeSize((int)size.x, (int)size.y);
 		}
 		oldSize = size;
-
-		Vector3 newPos = trans.position;
-		newPos.y = (int)size.y;
-		trans.position = newPos;
+		
+		trans.position = Vector3.zero;
 	}
 
 	private void ChangeSize(int newW, int newH) {
@@ -63,6 +64,11 @@ public class Grid : MonoBehaviour {
 
 		if(spaces != null) {
 			GridSpace[,] oldSpaces = spaces;//Save old Grid
+			for(int x = newW - 1; x < oldW; x++) {
+				for(int y = newH - 1; y < oldH; y++) {
+					RemoveGridSpace(x, y);
+				}
+			}
 			spaces = new GridSpace[newW, newH];//Set up new Grid
 			
 			//Copy over new Squares
@@ -74,24 +80,13 @@ public class Grid : MonoBehaviour {
 					}
 				}
 			}
-			for(int x = newW - 1; x < oldW; x++) {
-				for(int y = newH - 1; y < oldH; y++) {
-					RemoveGridSpace(x, y);
-				}
-			}
 		} else {
 			spaces = new GridSpace[newW, newH];//Set up new Grid
 		}
 	}
 
-	public void AddGridSpaceFromMousePos(Vector2 mousePos) {
-
-		mousePos.x = Mathf.Min(GridWidth - 1,  Mathf.Max(0, (int)(mousePos.x)));
-		mousePos.y = Mathf.Min(GridHeight - 1,  Mathf.Max(0, (int)(mousePos.y - 0.5f)));
-
-		AddGridSpace((int)mousePos.x, 
-		             (int)mousePos.y, 
-		             brushes[selectedBrushIndex]);
+	public bool AddGridSpace(int x, int y) {
+		return AddGridSpace(x, y, brushes[selectedBrushIndex]);
 	}
 
 	public bool AddGridSpace(int x, int y, GridBrush brush) {
@@ -102,11 +97,17 @@ public class Grid : MonoBehaviour {
 		if(spaces[x, y] != null) return false;
 		GameObject newSpace = new GameObject();
 		newSpace.name = "(" + x + ", " + y + ")";
+		newSpace.isStatic = true;
+
+		if(tilesTrans == null) {
+			tilesTrans = CheckAddTileLayer();
+		}
 
 		Transform newSpaceT = newSpace.transform;
-		newSpaceT.SetParent(trans, false);
+		trans.position = Vector3.zero;
+		newSpaceT.SetParent(tilesTrans, false);
 		Vector3 center = brush.sprite.bounds.center;
-		newSpaceT.position = new Vector3(x + 0.5f, GridHeight - y - 0.5f, 0.0f);
+		newSpaceT.position = new Vector3(x + 0.5f, y + 0.5f, 0.0f);
 		float width = 1.0f / brush.sprite.bounds.size.x;
 		float height = 1.0f / brush.sprite.bounds.size.y;
 		newSpaceT.localScale = new Vector3(width, height, 1.0f);
@@ -124,6 +125,18 @@ public class Grid : MonoBehaviour {
 		if(deletedSpace == null) return;
 		spaces[x, y] = null;
 		DestroyImmediate(deletedSpace.gameObject);
+	}
+
+	public Transform CheckAddTileLayer() {
+		Transform t = trans.FindChild("Tiles");
+		if(t == null) {
+			GameObject tiles = new GameObject();
+			tiles.isStatic = true;
+			tiles.name = "Tiles";
+			tiles.transform.SetParent(trans, false);
+			return tiles.transform;
+		}
+		return t;
 	}
 
 	public int GetBoundedXCortinate(float x) {
@@ -150,10 +163,10 @@ public class Grid : MonoBehaviour {
 		Vector3 temp;
 		for(int x = 0; x <= GridWidth; x++) {
 			temp = trans.position + Vector3.right * x;
-			Gizmos.DrawLine(temp, temp + Vector3.down * GridHeight);
+			Gizmos.DrawLine(temp, temp + Vector3.up * GridHeight);
 		}
 		for(int y = 0; y <= GridHeight; y++) {
-			temp = trans.position + Vector3.down * y;
+			temp = trans.position + Vector3.up * y;
 			Gizmos.DrawLine(temp + Vector3.right * GridWidth, temp);
 		}
 	}
