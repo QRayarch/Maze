@@ -25,8 +25,8 @@ public class CameraFocusOnGrid : MonoBehaviour {
 	public void Focus() {
 		Transform gridT = grid.transform;
 		Vector3 pos = trans.position;
-		pos.x = gridT.position.x + grid.GridWidth / 2;
-		pos.y = gridT.position.y + grid.GridHeight / 2;
+		pos.x = gridT.position.x + grid.GridWidth / 2 + 0.5f;
+		pos.y = gridT.position.y + grid.GridHeight / 2 + 0.5f;
 		trans.position = pos;
 
 		cam.orthographicSize = grid.GridHeight / 2.0f;

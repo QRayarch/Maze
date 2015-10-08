@@ -44,6 +44,7 @@ public class Grid : MonoBehaviour {
 		recT.pivot = Vector2.zero;
 
 		tilesTrans = CheckAddTileLayer();
+		ReloadGridSpaces();
 	}
 	
 	// Update is called once per frame
@@ -106,7 +107,7 @@ public class Grid : MonoBehaviour {
 		}
 		if(spaces[x, y] != null) return false;
 		GameObject newSpace = new GameObject();
-		newSpace.name = "(" + x + ", " + y + ")";
+		newSpace.name = BuildPosString(x, y);
 		newSpace.isStatic = true;
 
 		if(tilesTrans == null) {
@@ -141,6 +142,26 @@ public class Grid : MonoBehaviour {
 		if(deletedSpace == null) return;
 		spaces[x, y] = null;
 		DestroyImmediate(deletedSpace);
+	}
+
+	public void ReloadGridSpaces() {
+		Vector2 size = recT.sizeDelta;
+		if(spaces == null) {
+			spaces = new GameObject[(int)size.x,(int)size.y];
+		}
+		tilesTrans = CheckAddTileLayer();
+		for(int x = 0; x < GridWidth; x++) {
+			for(int y = 0; y < GridHeight; y++) {
+				Transform t = tilesTrans.Find(BuildPosString(x, y));
+				if(t != null) {
+					spaces[x, y] = t.gameObject;
+				}
+			}
+		}
+	}
+
+	private string BuildPosString(int x, int y) {
+		return "(" + x + ", " + y + ")";
 	}
 
 	public Transform CheckAddTileLayer() {
