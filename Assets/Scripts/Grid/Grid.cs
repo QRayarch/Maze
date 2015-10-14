@@ -117,7 +117,6 @@ public class Grid : MonoBehaviour {
 		Transform newSpaceT = newSpace.transform;
 		trans.position = Vector3.zero;
 		newSpaceT.SetParent(tilesTrans, false);
-		Vector3 center = brush.sprite.bounds.center;
 		newSpaceT.position = new Vector3(x + 0.5f, y + 0.5f, 0.0f);
 		float width = 1.0f / brush.sprite.bounds.size.x;
 		float height = 1.0f / brush.sprite.bounds.size.y;
@@ -174,6 +173,20 @@ public class Grid : MonoBehaviour {
 			return tiles.transform;
 		}
 		return t;
+	}
+
+	public bool IsGridSpaceCollidable(int x, int y) {
+		if(!IsInGridBoundsWidth(x) || !IsInGridBoundsHeight(y) || spaces[x, y] == null) return false;
+		return spaces[x, y].GetComponent<Collider2D>() != null;
+	}
+
+	public bool IsInGridBoundsWidth(int x) {
+		return x >= 0 && x < GridWidth;
+	}
+
+	
+	public bool IsInGridBoundsHeight(int y) {
+		return y >= 0 && y < GridHeight;
 	}
 
 	public int GetBoundedXCortinate(float x) {
