@@ -28,7 +28,6 @@ public class GridEditor : Editor {
 	private void SelectElemet(ReorderableList l) {
 		Grid grid = target as Grid;
 		grid.selectedBrushIndex = l.index;
-		Debug.Log(grid.selectedBrushIndex);
 	}
 
 	public override void OnInspectorGUI() {
