@@ -37,6 +37,8 @@ public class AIMove : Move {
 		posX = (int)(trans.position.x - 0.5f);
 		posY = (int)(trans.position.y - 0.5f);
 
+		move(dir);
+
 		float choice = Random.Range(0.0f, 1.0f);
 		if(choice <= jumpChance) {
 			base.jump();
@@ -45,10 +47,9 @@ public class AIMove : Move {
 		}
 
 		//Turn around if there is a wall
-		if(grid.IsGridSpaceCollidable(posX + dir, posY)) {
+		if(grid.IsGridSpaceCollidable(posX + (int)dir, posY)) {
 			dir *= -1;
 		}
 
-		move(dir);
 	}
 }
