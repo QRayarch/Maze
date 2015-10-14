@@ -3,17 +3,20 @@ using System.Collections;
 
 //http://answers.unity3d.com/questions/584736/method-for-grid-movement.html
 
-public class Move : MonoBehaviour {
+public class Move : Stepable {
+	
+	public float speed = 1.0f;
 
-	// TODO: Change to grid based movement
-	public float speed=1.0f;
+	private bool initMoving = false;
+	private bool moving = false;
+	private bool jumping = false;
 
 	private Vector3 endPos;
-	private bool moving=false;
 
-	void Start()
+	public virtual void Start()
 	{
 		endPos = transform.position;
+		initMoving = true;
 	}
 
 	protected void move(float dir)
@@ -24,33 +27,33 @@ public class Move : MonoBehaviour {
 		if (!moving) {
 
 			if (dir > 0) {
-				moving=true;
-				endPos=transform.position + new Vector3 (1, 0, 0);
+				moving = true;
+				endPos = transform.position + new Vector3 (1, 0, 0);
 			} 
 
 			else if (dir < 0) {
-				moving=true;
-				endPos=transform.position - new Vector3 (1, 0, 0);
+				moving = true;
+				endPos = transform.position - new Vector3 (1, 0, 0);
 			}
 		}
-
-		transform.position = Vector3.MoveTowards (transform.position, endPos, Time.deltaTime * speed);
 	}
 
-	/*protected void moveLeft() {
-		//float xMovement = Input.GetAxis ("Horizontal");
-		transform.position -= new Vector3 (.1f, 0, 0);
+	public override void Step()
+	{
+		if (initMoving) {
+			transform.position = endPos;
+		}
 	}
-
-	protected void moveRight() {
-		//float xMovement = Input.GetAxis ("Horizontal");
-		//transform.position += new Vector3 (xMovement, 0, 0);
-		transform.position += new Vector3 (.1f, 0, 0);
-	}*/
 
 	protected void jump() {
-		//float yMovement = Input.GetAxis ("Jump");
-		transform.position += new Vector3 (0, .1f, 0);
+
+		if (jumping && (transform.position == endPos))
+			jumping = false;
+		
+		if (!jumping) {
+			jumping = true;
+			endPos=transform.position + new Vector3 (0, 1, 0);
+		}
 
 	}
 }
