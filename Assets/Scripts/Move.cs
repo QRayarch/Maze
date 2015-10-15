@@ -41,23 +41,26 @@ public class Move : Stepable {
 				moving = true;
 				endPos = transform.position + Vector3.left;
 			}
-
+			if(dir != 0) {
+				Vector3 scale = transform.localScale;
+				scale.x = Mathf.Abs(scale.x) * Mathf.Sign(dir);
+				transform.localScale = scale;
+			}
 		}
 	}
 
 	public override void Step()
 	{
 		if (initMoving) {
-			transform.position = endPos;
-			endPos = transform.position;
-
 			int x = (int) (transform.position.x - .5);
 			int y = (int) (transform.position.y - .5);
 			
-			while(!grid.IsGridSpaceCollidable(x, y - 1) && y >= 0) {
+			while(!grid.IsGridSpaceCollidable(x, y - 1) && y > 0) {
 				endPos += Vector3.down;
 				y--;
 			}
+			StartCoroutine(TransitionMovment(StepUpdater.stepTime / 2, endPos));
+			//transform.position = endPos;
 		}
 
 	}
@@ -69,8 +72,41 @@ public class Move : Stepable {
 		
 		if (!jumping) {
 			jumping = true;
-			endPos=transform.position + new Vector3 (0, 3, 0);
-		}
 
+			int x = (int) (transform.position.x - .5);
+			int y = (int) (transform.position.y - .5);
+
+			int jumpHeight = 0;
+
+			for(int j = 1; j <= 3; j++) {
+				if(!grid.IsGridSpaceCollidable(x, y + j)) {
+					jumpHeight++;
+				} else {
+					j = 10;
+				}
+			}
+			endPos = transform.position + new Vector3 (0, jumpHeight, 0);
+		}
+	}
+
+	protected void CancelMove() {
+		StopCoroutine("TransitionMovment");
+		int x = (int) (transform.position.x - .5);
+		int y = (int) (transform.position.y - .5);
+		endPos = new Vector3(x + 0.5f, y + 0.5f, 0.0f);
+		transform.position = endPos;
+	}
+
+	IEnumerator TransitionMovment(float t, Vector3 newPos) {
+		float time = 0;
+		Transform trans = transform;
+		Vector3 startPos = trans.position;
+		while(time < t) {
+			time += Time.deltaTime;
+			trans.position = Vector3.Lerp(startPos, newPos, time / t);
+			yield return null;
+		}
+		trans.position = newPos;
+		endPos = transform.position;
 	}
 }

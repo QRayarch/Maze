@@ -12,6 +12,11 @@ public class StepUpdater : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		stepables = GameObject.FindObjectsOfType<Stepable>();
+		for(int s = 0; s < stepables.Length; s++) {
+			if(stepables[s] != null) {
+				stepables[s].StepUpdater = this;
+			}
+		}
 	}
 	
 	// Update is called once per frame
@@ -22,16 +27,24 @@ public class StepUpdater : MonoBehaviour {
 	private void CheckForStep() {
 		stepTimer += Time.deltaTime;
 		if(stepTimer >= stepTime) {
-			stepTimer = 0;
 			StepAll();
 		}
 	}
 
-	private void StepAll() {
+	public void StepAll() {
+		stepTimer = 0;
 		for(int s = 0; s < stepables.Length; s++) {
 			if(stepables[s] != null) {
 				stepables[s].Step();
 			}
 		}
+	}
+
+	public float TimeTillNextStep {
+		get{ return stepTime - stepTimer; }
+	}
+
+	public float StepTimer {
+		get{ return stepTimer; }
 	}
 }
