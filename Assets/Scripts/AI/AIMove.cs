@@ -21,6 +21,7 @@ public class AIMove : Move {
 
 	//Temp
 	float dir = 1;
+	bool jumping=false;
 
 	// Use this for initialization
 	void Start () {
@@ -37,11 +38,11 @@ public class AIMove : Move {
 		posX = (int)(trans.position.x - 0.5f);
 		posY = (int)(trans.position.y - 0.5f);
 
-		move(dir);
+		move(dir,jumping);
 
 		float choice = Random.Range(0.0f, 1.0f);
 		if(choice <= jumpChance) {
-			base.jump();
+			jumping=true;
 		} else if (choice - jumpChance <= turnChance) {
 			dir *= -1;
 		}
