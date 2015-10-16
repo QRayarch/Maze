@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 
 public enum BrushType {
+	NONE,
 	NON_COLLIDE,
 	COLLIDE,
 }
@@ -14,13 +15,17 @@ public class Grid : MonoBehaviour {
 
 	//Stuff for brushes
 	[Header("Tile Brushes")]
+	public Material matForTiles;
+	//Hide the things we overriede
+	[HideInInspector]
 	public List<GridBrush> brushes = new List<GridBrush>();
+	[HideInInspector]
 	public int selectedBrushIndex;
 
 	[System.Serializable]
 	public class GridBrush {
 		public Sprite sprite;
-		public BrushType type = BrushType.NON_COLLIDE;
+		public BrushType type = BrushType.NONE;
 
 		public bool HasSprite {
 			get { return sprite != null; }
@@ -101,7 +106,7 @@ public class Grid : MonoBehaviour {
 	}
 
 	public bool AddGridSpace(int x, int y, GridBrush brush) {
-		if(!brush.HasSprite) {
+		if(!brush.HasSprite && brush.type == BrushType.NONE) {
 			RemoveGridSpace(x, y);
 			return true;
 		}
@@ -122,8 +127,13 @@ public class Grid : MonoBehaviour {
 		float height = 1.0f / brush.sprite.bounds.size.y;
 		newSpaceT.localScale = new Vector3(width, height, 1.0f);
 
-		SpriteRenderer spriteRender =  newSpace.AddComponent<SpriteRenderer>();
-		spriteRender.sprite = brush.sprite;
+		if(brush.HasSprite) {
+			SpriteRenderer spriteRender =  newSpace.AddComponent<SpriteRenderer>();
+			if(matForTiles != null) {
+				spriteRender.material = matForTiles;
+			}
+			spriteRender.sprite = brush.sprite;
+		}
 
 		spaces[x, y] = newSpace;
 

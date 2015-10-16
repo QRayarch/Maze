@@ -19,10 +19,12 @@ public class GridEditor : Editor {
 
 	private void DrawBrush(Rect rect, int index, bool isActive, bool isFocused) {
 		SerializedProperty brush = list.serializedProperty.GetArrayElementAtIndex(index);
-		rect.width /= 2;
-		EditorGUI.PropertyField(rect, brush.FindPropertyRelative("sprite"));
-		rect.x += rect.width / 2;
-		EditorGUI.PropertyField(rect, brush.FindPropertyRelative("type"));
+		rect.x += rect.width * 0.10f;
+		rect.width *= 0.4f;
+		EditorGUI.PropertyField(rect, brush.FindPropertyRelative("sprite"), GUIContent.none);
+		rect.x += rect.width;
+		rect.width *= 1.05f;
+		EditorGUI.PropertyField(rect, brush.FindPropertyRelative("type"), GUIContent.none);
 	}
 
 	private void SelectElemet(ReorderableList l) {
@@ -31,6 +33,7 @@ public class GridEditor : Editor {
 	}
 
 	public override void OnInspectorGUI() {
+		base.OnInspectorGUI();
 		serializedObject.Update();
 		list.DoLayoutList();
 		serializedObject.ApplyModifiedProperties();
