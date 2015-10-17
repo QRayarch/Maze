@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class TrapPlacer : MonoBehaviour {
 
-	public string inputButton = "Fire";
+	public string inputButton = "PlaceTrap";
 	[Header("Aperance")]
 	public Material placedMat;
 	public Material placingMat;
@@ -20,6 +20,7 @@ public class TrapPlacer : MonoBehaviour {
 
 	private struct PlacingTrap {
 		public int trapIndexPlacing;
+		public Trap trap;
 		public Transform transform;
 		public SpriteRenderer[] renders;
 	}
@@ -47,7 +48,7 @@ public class TrapPlacer : MonoBehaviour {
 		//Check for new Traps
 		bool didAction = false;
 		for(int t = 0; t < levelTraps.trapHolders.Count && !didAction; t++) {
-			if(Input.GetKeyDown((t + 1).ToString())) {
+			if(Input.GetButtonDown("Trap " + (t + 1).ToString()) && levelTraps.trapHolders[t].numPerLevel >= 1) {
 				//Cancel trap placment if we press the same key again
 				if(isPlacingTrap && trapPlacing.trapIndexPlacing == t) { 
 					isPlacingTrap = false;
@@ -61,7 +62,9 @@ public class TrapPlacer : MonoBehaviour {
 					trapPlacing = new PlacingTrap();
 					trapPlacing.trapIndexPlacing = t;
 
-					trapPlacing.transform = Instantiate(levelTraps.trapHolders[t].trap).transform;
+					trapPlacing.trap = Instantiate(levelTraps.trapHolders[t].trap);
+
+					trapPlacing.transform = trapPlacing.trap.transform;
 					trapPlacing.transform.SetParent(trans, false);
 					Vector3 posAdd = Vector3.zero;
 					posAdd.x = Mathf.Sign(trans.localScale.x);//Scale x denotes direction
@@ -71,11 +74,13 @@ public class TrapPlacer : MonoBehaviour {
 					trapPlacing.renders = trapGameO.GetComponentsInChildren<SpriteRenderer>();
 
 					SetRendersMaterial(placingMat);
+					SetRenderMaterialsColor(canPlaceColor);
 				}
 			}
 		}
 
 		//Check trap placment
+		bool canPlace = false;
 		if(isPlacingTrap && grid != null) {
 			//Get grid pos
 			int x = (int)(trans.position.x - 0.5f);
@@ -83,8 +88,6 @@ public class TrapPlacer : MonoBehaviour {
 
 			//Add one in the direction we are facing
 			x += (int)Mathf.Sign(trans.localScale.x);
-
-			bool canPlace = false;
 
 			if(grid.IsInGridBoundsWidth(x) && grid.IsInGridBoundsHeight(y)) {
 				//Can't hit the square we want to place in
@@ -106,6 +109,25 @@ public class TrapPlacer : MonoBehaviour {
 			}
 
 		   couldPlace = canPlace;
+		}
+
+		//Check to see if we are placed the trap.
+		if(canPlace) {
+			if(Input.GetButton(inputButton)) {
+				trapPlacing.transform.SetParent(null, true);
+				Vector3 scale = trapPlacing.transform.localScale;
+				scale.x = Mathf.Abs(scale.x);
+				trapPlacing.transform.localScale = scale;
+				trapPlacing.trap.Place();
+
+				SetRendersMaterial(placedMat);
+				SetRenderMaterialsColor(Color.white);
+
+				LevelTraps.TrapHolder trapHolder = levelTraps.trapHolders[trapPlacing.trapIndexPlacing];
+				trapHolder.numPerLevel--;
+				levelTraps.trapHolders[trapPlacing.trapIndexPlacing] = trapHolder;
+				isPlacingTrap = false;
+			}
 		}
 	}
 
