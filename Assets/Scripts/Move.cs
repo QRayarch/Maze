@@ -9,7 +9,7 @@ public class Move : MonoBehaviour {
 	protected Grid grid;
 
 	public int speed=5;
-	public float jumpForce=1f;
+	public float jumpForce=100f;
 	public bool grounded=false;
 	public Transform groundCheck;
 	float groundRad=.2f;

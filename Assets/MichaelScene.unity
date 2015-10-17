@@ -1966,6 +1966,14 @@ Prefab:
       propertyPath: m_Constraints
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 5017360, guid: 031d525827ca3fd4ab2271b6c126b0e2, type: 2}
+      propertyPath: m_AngularDrag
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11472676, guid: 031d525827ca3fd4ab2271b6c126b0e2, type: 2}
+      propertyPath: jumpForce
+      value: 100
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 031d525827ca3fd4ab2271b6c126b0e2, type: 2}
   m_IsPrefabParent: 0
@@ -6075,7 +6083,7 @@ GameObject:
   m_Layer: 9
   m_Name: Ground
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
