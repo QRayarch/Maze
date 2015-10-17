@@ -7,8 +7,13 @@ public class Move : MonoBehaviour {
 
 	protected Grid grid;
 
-	private int speed=5;
-	private float jumpForce=700f;
+	public int speed=5;
+	public float jumpForce=1f;
+	public bool grounded=false;
+	public Transform groundCheck;
+	float groundRad=.2f;
+	public LayerMask ground;
+
 
 	float x;
 
@@ -21,6 +26,8 @@ public class Move : MonoBehaviour {
 
 	protected void move(float dir, bool jumping)
 	{
+		grounded = Physics2D.OverlapCircle (groundCheck.position, groundRad, ground);
+
 		if (dir > 0) {
 			x = Vector2.right.x * speed;
 		} else if (dir < 0) {
@@ -29,10 +36,10 @@ public class Move : MonoBehaviour {
 			x=0;
 		}
 
-		if(jumping){
+		gameObject.GetComponent<Rigidbody2D> ().velocity = new Vector2(x, gameObject.GetComponent<Rigidbody2D> ().velocity.y);
+
+		if(jumping&&grounded){
 			gameObject.GetComponent<Rigidbody2D> ().AddForce(new Vector2(0, jumpForce));
 		}
-
-//		gameObject.GetComponent<Rigidbody2D> ().velocity = new Vector2(x, gameObject.GetComponent<Rigidbody2D> ().velocity.y);
 	}		
 }
