@@ -89,11 +89,11 @@ public class TrapPlacer : MonoBehaviour {
 			//Add one in the direction we are facing
 			x += (int)Mathf.Sign(trans.localScale.x);
 
-			if(grid.IsInGridBoundsWidth(x) && grid.IsInGridBoundsHeight(y)) {
+			if(grid.IsInGridBounds(x, y)) {
 				//Can't hit the square we want to place in
 				if(!grid.IsGridSpaceCollidable(x, y)) {
 					y-= 1;
-					if(grid.IsInGridBoundsWidth(x) && grid.IsInGridBoundsHeight(y)) {
+					if(grid.IsInGridBounds(x, y)) {
 						//There is a ground benethe the tile
 						if(grid.IsGridSpaceCollidable(x, y)) {
 							canPlace = true;

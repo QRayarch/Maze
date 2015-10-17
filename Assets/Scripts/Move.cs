@@ -33,6 +33,6 @@ public class Move : MonoBehaviour {
 			gameObject.GetComponent<Rigidbody2D> ().AddForce(new Vector2(0, jumpForce));
 		}
 
-		gameObject.GetComponent<Rigidbody2D> ().velocity = new Vector2(x, gameObject.GetComponent<Rigidbody2D> ().velocity.y);
+//		gameObject.GetComponent<Rigidbody2D> ().velocity = new Vector2(x, gameObject.GetComponent<Rigidbody2D> ().velocity.y);
 	}		
 }

@@ -190,10 +190,13 @@ public class Grid : MonoBehaviour {
 		return spaces[x, y].GetComponent<Collider2D>() != null;
 	}
 
+	public bool IsInGridBounds(int x, int y) {
+		return IsInGridBoundsWidth(x) && IsInGridBoundsHeight(y);
+	}
+
 	public bool IsInGridBoundsWidth(int x) {
 		return x >= 0 && x < GridWidth;
 	}
-
 	
 	public bool IsInGridBoundsHeight(int y) {
 		return y >= 0 && y < GridHeight;

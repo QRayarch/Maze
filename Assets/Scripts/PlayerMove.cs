@@ -20,7 +20,7 @@ public class PlayerMove : Move
 	// Update is called once per frame
 	void Update ()
 	{
-		grounded = Physics2D.OverlapCircle (groundCheck.position, groundRad, whatIsGround);
+//		grounded = Physics2D.OverlapCircle (groundCheck.position, groundRad, whatIsGround);
 
 		if (Input.GetAxis ("Jump") > 0&&grounded) {
 			jumping = true;

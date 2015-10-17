@@ -146,7 +146,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inputButton: PlaceTrap
-  placedMat: {fileID: 10754, guid: 0000000000000000e000000000000000, type: 0}
+  placedMat: {fileID: 2100000, guid: 1c726fc4f8642a34d9bc6f75fb7495a1, type: 2}
   placingMat: {fileID: 2100000, guid: 9034882683ac30c4f9a96b08ab176f89, type: 2}
   canPlaceColor: {r: 0, g: .669117689, b: .170740262, a: 1}
   canNotPlaceColor: {r: .595588207, g: 0, b: .209482759, a: 1}
@@ -161,7 +161,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf93aa8c35668834bb6fb740353ec01b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 1
+  groundCheck: {fileID: 0}
+  whatIsGround:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &11484260
 MonoBehaviour:
   m_ObjectHideFlags: 1
