@@ -16,13 +16,13 @@ public class PlayerMove : Move
 	void FixedUpdate ()
 	{
 
-		if (Input.GetAxis ("Jump") > 0) {
+		if (Input.GetAxisRaw ("Jump") > 0) {
 			jumping = true;
 		} else {
 			jumping=false;
 		}
 
-		move (Input.GetAxis("Horizontal"),jumping);
+		move (Input.GetAxisRaw("Horizontal"),jumping);
 	}
 }
 

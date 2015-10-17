@@ -3,6 +3,7 @@ using System.Collections;
 
 //http://answers.unity3d.com/questions/584736/method-for-grid-movement.html
 
+[RequireComponent(typeof(Rigidbody2D))]
 public class Move : MonoBehaviour {
 
 	protected Grid grid;
