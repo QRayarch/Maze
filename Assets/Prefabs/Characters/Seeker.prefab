@@ -28,8 +28,9 @@ GameObject:
   - 114: {fileID: 11418734}
   - 114: {fileID: 11486602}
   - 61: {fileID: 6114306}
-  - 50: {fileID: 5074494}
   - 114: {fileID: 11436928}
+  - 114: {fileID: 11486650}
+  - 50: {fileID: 5074494}
   m_Layer: 0
   m_Name: Seeker
   m_TagString: Untagged
@@ -102,7 +103,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06eb940d00980de43a922fb3ca6a7cab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 1
   jumpChance: .00999999978
   turnChance: .0799999982
 --- !u!114 &11436928
@@ -139,6 +139,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 1
+--- !u!114 &11486650
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 140964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da837e2f5ce23d4c9fe48595b3899fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &21228774
 SpriteRenderer:
   m_ObjectHideFlags: 1

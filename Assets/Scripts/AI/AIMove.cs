@@ -15,11 +15,13 @@ public class AIMove : Move {
 
 	private float seekDoor = 0;
 
+	private PathFinder pathFinder;
 	private Transform trans;
 	private int posX;
 	private int posY;
 
 	//Temp
+	PathFinder.Path p;
 	float dir = 1;
 	bool jumping=false;
 
@@ -27,6 +29,13 @@ public class AIMove : Move {
 	void Start () {
 		base.Start();
 
+		pathFinder = GetComponent<PathFinder>();
+		if(pathFinder != null) {
+			pathFinder.Grid = grid;
+			pathFinder.DistanceCanJump = 3;
+			pathFinder.HeightCanJump = 3;
+			pathFinder.MaxDistance = 30;
+		}
 		trans = transform;
 
 		dir = Random.Range(0, 2) == 0 ? 1: -1;
@@ -51,6 +60,15 @@ public class AIMove : Move {
 		if(grid.IsGridSpaceCollidable(posX + (int)dir, posY)) {
 			dir *= -1;
 		}
+		if(pathFinder != null) {
+			if(Input.GetMouseButton(0)) {
+				if(Camera.current != null) {
+					p = pathFinder.FindPath(trans.position, Camera.current.ScreenToWorldPoint(Input.mousePosition));
+				}
+				//p = pathFinder.FindPath(trans.position, Camera.current.ScreenToWorldPoint(Input.mousePosition));
 
+			}
+			pathFinder.DebugDrawPath(p);
+		}
 	}
 }
