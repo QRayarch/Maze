@@ -10,7 +10,6 @@ public class PathFinder : MonoBehaviour {
 	public struct Node {
 		public int posX;
 		public int posY;
-		public int distance;
 	}
 
 	private enum Direction {
@@ -18,7 +17,7 @@ public class PathFinder : MonoBehaviour {
 		Right = 1,
 	}
 
-	public struct Path {
+	public class Path {
 		public bool didFindTarget = false;
 		public List<Node> nodes = new List<Node>();
 	}
@@ -35,7 +34,6 @@ public class PathFinder : MonoBehaviour {
 
 	public Path FindPath(Vector3 start, Vector3 target) {
 		Node startN = new Node();
-		startN.distance = 0;
 		startN.posX = Mathf.RoundToInt(start.x);
 		startN.posY = Mathf.RoundToInt(start.y);
 
@@ -49,7 +47,7 @@ public class PathFinder : MonoBehaviour {
 	}
 
 	private Path FindPath(Path p, Node start, Direction dir, int tarX, int tarY, int distance) {
-
+		return null;
 	}
 
 	public int MaxDistance {
