@@ -2,7 +2,7 @@
 using System.Collections;
 
 [RequireComponent(typeof(PathFinder))]
-public class AIMove : Move {
+public class AIMove : GridMove {
 
 	[Header("Pathfinding Config")]
 	public int heightCanJump = 3;
@@ -37,7 +37,7 @@ public class AIMove : Move {
 		if(path != null) {
 			PathFinder.Node currentNode = path.nodes[currentNodeIndex];
 			float dir = currentNode.posX - posX;
-			bool isJump = false;
+			bool isJump = currentNode.isJump || true;
 			
 			//Next node is the last
 			if(currentNodeIndex + 1 == path.Distance) {
@@ -49,15 +49,14 @@ public class AIMove : Move {
 				}
 			} else {
 				PathFinder.Node nextNode = path.nodes[currentNodeIndex + 1];
-				isJump = nextNode.isJump;
 				if(posX == currentNode.posX && posY == currentNode.posY) {
 					currentNodeIndex++;
+					Debug.Log("Next " + nextNode.posX + " " + nextNode.posY);
+				} else {
+					Debug.Log("Trying " + dir + " " + nextNode.isJump + " " + currentNode.isJump);
 				}
 			}
-			if(isJump) {
-				Debug.Log("Dir " + dir + " " + posX + " " + posY + " " + currentNode.posX + " " + currentNode.posY);
-			}
-			move(dir, isJump);
+			move(dir, true);
 		}
 
 		if(pathFinder != null) {

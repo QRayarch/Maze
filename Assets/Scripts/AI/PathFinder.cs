@@ -251,7 +251,7 @@ public class PathFinder : MonoBehaviour {
 							prevLoc = jumpLoc;
 						}
 					}
-					Debug.DrawLine(prevLoc, nextLoc, renderColor);
+					Debug.DrawLine(loc, nextLoc, renderColor);
 				} else {
 					Debug.DrawLine(loc, nextLoc, renderColor);
 				}
