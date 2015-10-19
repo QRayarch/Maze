@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class PlayerMove : GridMove
+public class PlayerMove : Move
 {
 
 	public bool jumping = false;

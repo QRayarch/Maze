@@ -112,6 +112,7 @@ public class Grid : MonoBehaviour {
 		}
 		if(spaces[x, y] != null) return false;
 		GameObject newSpace = new GameObject();
+		newSpace.layer = LayerMask.NameToLayer("Map");
 		newSpace.name = BuildPosString(x, y);
 		newSpace.isStatic = true;
 

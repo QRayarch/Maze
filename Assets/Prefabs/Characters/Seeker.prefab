@@ -128,7 +128,7 @@ CircleCollider2D:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 140964}
   m_Enabled: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 1d0623a0674739542adcf7fce6e5657c, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: -.0500000007}
@@ -146,12 +146,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
-  jumpForce: 100
+  jumpForce: 200
   grounded: 0
   groundCheck: {fileID: 466170}
   ground:
     serializedVersion: 2
-    m_Bits: 4294966271
+    m_Bits: 2048
   heightCanJump: 3
   distanceCanJump: 3
   maxSearchDistance: 40

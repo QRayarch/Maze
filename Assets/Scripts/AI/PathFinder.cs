@@ -82,6 +82,8 @@ public class PathFinder : MonoBehaviour {
 			return p;
 		}
 
+		p = new Path(p);
+
 		//Check what we can do
 		bool isPitfall = IsPitfallInFrontOf(cur.posX, cur.posY, dir);
 		bool canForward = CanMoveForward(cur.posX, cur.posY, dir);
@@ -119,7 +121,7 @@ public class PathFinder : MonoBehaviour {
 
 		if(isVertJump) {
 			Node jump = new Node();
-			jump.posX = cur.posX + (int)dir;
+			jump.posX = cur.posX - (int)dir;
 			int j = JumpTillCeiling(cur.posX, cur.posY);
 			jump.posY = FallTillGround(jump.posX, j);
 			jump.isJump = true;

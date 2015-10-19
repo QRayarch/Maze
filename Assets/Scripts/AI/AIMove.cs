@@ -2,7 +2,7 @@
 using System.Collections;
 
 [RequireComponent(typeof(PathFinder))]
-public class AIMove : GridMove {
+public class AIMove : Move {
 
 	[Header("Pathfinding Config")]
 	public int heightCanJump = 3;
@@ -13,6 +13,7 @@ public class AIMove : GridMove {
 	private Transform trans;
 	private int posX;
 	private int posY;
+	private float moveDir = 0;
 	private PathFinder.Path path;
 	private int currentNodeIndex = 0;
 
@@ -36,12 +37,11 @@ public class AIMove : GridMove {
 
 		if(path != null) {
 			PathFinder.Node currentNode = path.nodes[currentNodeIndex];
-			float dir = currentNode.posX - posX;
-			bool isJump = currentNode.isJump || true;
+			bool shouldChangeDir = true;
+			bool isJump = currentNode.isJump;
 			
 			//Next node is the last
 			if(currentNodeIndex + 1 == path.Distance) {
-				//We are at the end, complet
 				if(posX == currentNode.posX && posY == currentNode.posY) {
 					path = null;
 					currentNodeIndex = 0;
@@ -49,14 +49,22 @@ public class AIMove : GridMove {
 				}
 			} else {
 				PathFinder.Node nextNode = path.nodes[currentNodeIndex + 1];
+				isJump |= nextNode.isJump;
+				if(posX == currentNode.posX && posY >= currentNode.posY) {
+					shouldChangeDir = false;
+				}
 				if(posX == currentNode.posX && posY == currentNode.posY) {
 					currentNodeIndex++;
-					//Debug.Log("Next " + nextNode.posX + " " + nextNode.posY);
-				} else {
-					//Debug.Log("Trying " + dir + " " + nextNode.isJump + " " + currentNode.isJump);
+					Debug.Log("Next. " + currentNode.posX + " " + currentNode.posY);
 				}
 			}
-			move(dir, true);
+			if(shouldChangeDir) {
+				moveDir = currentNode.posX - posX;
+				//Smooth the apprach
+				float dist = Vector3.Distance(trans.position, new Vector3(currentNode.posX + 0.5f, currentNode.posY + 0.5f, 0.0f));
+				moveDir /= dist;
+			}
+			move(moveDir, isJump);
 		}
 
 		if(pathFinder != null) {
