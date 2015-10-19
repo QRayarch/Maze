@@ -6,12 +6,11 @@ public class Chest : MonoBehaviour {
 
 	private Animator animator;
 	private bool opened;
-	private bool hasKey;
+	public bool hasKey = false;
 
 	// Use this for initialization
 	void Start () {
 		opened = false;
-		hasKey = (Random.value > 0.5f);
 		animator = GetComponent<Animator>();
 	}
 	
@@ -21,21 +20,18 @@ public class Chest : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D(Collider2D other) {
-		if(other.isTrigger) return;
 
 		if(opened) {
 			return;
 		} else {
 			KeyHolder keyHolder = other.gameObject.GetComponent<KeyHolder>();
 			if(keyHolder != null) {
-				opened = true;
 				PlayAnimationTrigger("chestOpen");
 
 				if(hasKey) {
 					keyHolder.obtainKey();
-					hasKey = false;
 				}
-
+				opened = true;
 			}
 
 		}

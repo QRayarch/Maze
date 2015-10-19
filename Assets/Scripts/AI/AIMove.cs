@@ -55,7 +55,7 @@ public class AIMove : Move {
 				}
 				if(posX == currentNode.posX && posY == currentNode.posY) {
 					currentNodeIndex++;
-					Debug.Log("Next. " + currentNode.posX + " " + currentNode.posY);
+					//Debug.Log("Next. " + currentNode.posX + " " + currentNode.posY);
 				}
 			}
 			if(shouldChangeDir) {
