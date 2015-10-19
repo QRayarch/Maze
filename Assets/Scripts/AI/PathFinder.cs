@@ -9,8 +9,6 @@ public class PathFinder : MonoBehaviour {
 	private int heightCanJump;
 	private int distanceCanJump;
 
-	List<Path> dPath = new List<Path>();
-
 	public struct Node {
 		public int posX;
 		public int posY;
@@ -45,57 +43,7 @@ public class PathFinder : MonoBehaviour {
 		}
 	}
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
-
-	public void DebugDrawAllPaths() {
-		for(int p = 0; p < dPath.Count; p++) {
-			DebugDrawPath(dPath[p]);
-		}
-	}
-
-	public void DebugDrawPath(Path p) {
-		if(p == null) return;
-		Color renderColor = Color.green;
-		//I wanted orange
-		if(!p.didFindTarget) renderColor = Color.Lerp(Color.red, Color.yellow, 0.5f);
-		for(int n = 0; n < p.nodes.Count; n++) {
-			Vector3 loc = new Vector3(p.nodes[n].posX + 0.5f, p.nodes[n].posY + 0.5f, 0);
-			int next = n + 1;
-			if(next >= p.nodes.Count) {
-				Debug.DrawLine(loc, loc + Vector3.up * 0.25f, renderColor);
-				Debug.DrawLine(loc, loc + Vector3.down * 0.25f, renderColor);
-			} else {
-				Vector3 nextLoc = new Vector3(p.nodes[next].posX + 0.5f, p.nodes[next].posY + 0.5f, 0);
-				if(p.nodes[next].isJump) {
-					int res = 12;
-					float radsPerRes = Mathf.PI / res;
-					Vector3 prevLoc = loc;
-					int dir = -(int)Mathf.Sign((nextLoc.x - loc.y));
-					Vector3 center = (nextLoc - loc) / 2 + loc;
-					for(int r = 0; r < res; r++) {
-						float ang = radsPerRes * r;
-						Vector3 jumpLoc = new Vector3(Mathf.Cos(ang) * distanceCanJump / 2 * dir, Mathf.Max(Mathf.Sin(ang) * heightCanJump - 1, loc.y - center.y), 0)  + center;
-						Debug.DrawLine(prevLoc, jumpLoc, renderColor);
-						prevLoc = jumpLoc;
-					}
-					Debug.DrawLine(prevLoc, nextLoc, renderColor);
-				} else {
-					Debug.DrawLine(loc, nextLoc, renderColor);
-				}
-			}
-		}
-	}
-
 	public Path FindPath(Vector3 start, Vector3 target) {
-		dPath.Clear();
 		Node startN = new Node();
 		startN.posX = (int)(start.x);
 		startN.posY = (int)(start.y);
@@ -103,13 +51,23 @@ public class PathFinder : MonoBehaviour {
 		int targetX = (int)(target.x);
 		int targetY = (int)(target.y);
 
-		Path lPath = FindPath(new Path(), startN, Direction.Left, targetX, targetY, 0);
-		Path rPath = FindPath(new Path(), startN, Direction.Right, targetX, targetY, 0);
+		//Why compute impossible senarios
+		if(!grid.IsInGridBounds(targetX, targetY) || !grid.IsInGridBounds(startN.posX, startN.posY)) return null;
+		if(grid.IsGridSpaceCollidable(targetX, targetY)) return null;
+
+		
+		Path lPath = FindPath(new Path(), startN, Direction.Left, targetX, targetY);
+		Path rPath = FindPath(new Path(), startN, Direction.Right, targetX, targetY);
 
 		return ComparePaths(lPath, rPath);
 	}
 
-	private Path FindPath(Path p, Node cur, Direction dir, int tarX, int tarY, int distance) {
+	private Path FindPath(Path p, Node cur, Direction dir, int tarX, int tarY) {
+		//If we are going back on ourselves this can't be the shortest path.
+		if(p.nodes.Contains(cur)) {
+			p.didFindTarget = false;
+			return p;
+		}
 		//Add the current position to the path
 		p.Add(cur);
 		
@@ -119,12 +77,10 @@ public class PathFinder : MonoBehaviour {
 			return p;
 		}
 		//Looked to far and didn't find the target
-		if(distance >= maxDistance) {
+		if(p.Distance >= maxDistance) {
 			p.didFindTarget = false;
 			return p;
 		}
-
-		dPath.Add(p);
 
 		//Check what we can do
 		bool isPitfall = IsPitfallInFrontOf(cur.posX, cur.posY, dir);
@@ -140,8 +96,8 @@ public class PathFinder : MonoBehaviour {
 			fallen.posX = cur.posX + (int)dir;
 			fallen.posY = FallTillGround(fallen.posX, cur.posY);
 			
-			Path lPath = FindPath(new Path(p), fallen, Direction.Left, tarX, tarY, distance + 1);
-			Path rPath = FindPath(new Path(p), fallen, Direction.Right, tarX, tarY, distance + 1);
+			Path lPath = FindPath(new Path(p), fallen, Direction.Left, tarX, tarY);
+			Path rPath = FindPath(new Path(p), fallen, Direction.Right, tarX, tarY);
 			potentialPaths[0] = ComparePaths(lPath, rPath);
 		}
 
@@ -149,7 +105,7 @@ public class PathFinder : MonoBehaviour {
 			Node forward = new Node();
 			forward.posX = cur.posX + (int)dir;
 			forward.posY = cur.posY;
-			potentialPaths[1] = FindPath(p, forward, dir, tarX, tarY, distance + 1);
+			potentialPaths[1] = FindPath(p, forward, dir, tarX, tarY);
 		}
 
 		if(canForward && isPitfall && isHorizJump) {
@@ -158,18 +114,20 @@ public class PathFinder : MonoBehaviour {
 			jump.posY = cur.posY;
 			jump.isJump = true;
 
-			potentialPaths[2] = FindPath(p, jump, dir, tarX, tarY, distance + 1);
+			potentialPaths[2] = FindPath(p, jump, dir, tarX, tarY);
 		}
 
-		if((!canForward && isVertJump) || isVertJump) {
+		if(isVertJump) {
 			Node jump = new Node();
 			jump.posX = cur.posX + (int)dir;
-			jump.posY = cur.posY + heightCanJump;
+			int j = JumpTillCeiling(cur.posX, cur.posY);
+			jump.posY = FallTillGround(jump.posX, j);
 			jump.isJump = true;
-			
-			Path lPath = FindPath(new Path(p), jump, Direction.Left, tarX, tarY, distance + 1);
-			Path rPath = FindPath(new Path(p), jump, Direction.Right, tarX, tarY, distance + 1);
-			potentialPaths[3] = ComparePaths(lPath, rPath);
+			if(jump.posY > cur.posY) {
+				Path lPath = FindPath(new Path(p), jump, Direction.Left, tarX, tarY);
+				Path rPath = FindPath(new Path(p), jump, Direction.Right, tarX, tarY);
+				potentialPaths[3] = ComparePaths(lPath, rPath);
+			}
 		}
 
 		//Find the best path of the options and return it
@@ -210,7 +168,18 @@ public class PathFinder : MonoBehaviour {
 	private int FallTillGround(int x, int y) {
 		if(grid == null || !grid.IsInGridBounds(x, y)) return y;
 		while(y >= 0 && grid.IsInGridBounds(x, y - 1) && !grid.IsGridSpaceCollidable(x, y - 1)) {
-			y--;
+			y -= 1;
+		}
+		return y;
+	}
+
+	private int JumpTillCeiling(int x, int y) {
+		if(grid == null || !grid.IsInGridBounds(x, y)) return y;
+		for(int h = 0; h < heightCanJump; h++) {
+			if(!grid.IsInGridBounds(x, y + 1) || grid.IsGridSpaceCollidable(x, y + 1)) {
+				return y;
+			}
+			y++;
 		}
 		return y;
 	}
@@ -240,11 +209,54 @@ public class PathFinder : MonoBehaviour {
 
 	private bool IsVerticalJumpAvalible(int x, int y, Direction dir) {
 		if(grid == null || !grid.IsInGridBounds(x, y)) return false;
+		int originalY = y;
 		x += (int)dir;
 		y += heightCanJump;
-		if(!grid.IsInGridBounds(x, y) || grid.IsGridSpaceCollidable(x, y)) return false;
-		y -= 1;
-		return grid.IsInGridBounds(x, y) && grid.IsGridSpaceCollidable(x, y);
+		for(int h = heightCanJump; h > 1; h--) {
+			if(!grid.IsInGridBounds(x, y) || grid.IsGridSpaceCollidable(x, y)) {
+				y -= 1;
+			}
+		}
+		y = FallTillGround(x, y) - 1;
+		return y > originalY - 2 && grid.IsInGridBounds(x, y) && grid.IsGridSpaceCollidable(x, y);
+	}
+
+	//Draws a path using Debug Lines
+	public void DebugDrawPath(Path p) {
+		if(p == null) return;
+		Color renderColor = Color.green;
+		//I wanted orange
+		if(!p.didFindTarget) renderColor = Color.Lerp(Color.red, Color.yellow, 0.5f);
+		for(int n = 0; n < p.nodes.Count; n++) {
+			Vector3 loc = new Vector3(p.nodes[n].posX + 0.5f, p.nodes[n].posY + 0.5f, 0);
+			int next = n + 1;
+			if(next >= p.nodes.Count) {
+				Debug.DrawLine(loc, loc + Vector3.up * 0.25f, renderColor);
+				Debug.DrawLine(loc, loc + Vector3.down * 0.25f, renderColor);
+			} else {
+				Vector3 nextLoc = new Vector3(p.nodes[next].posX + 0.5f, p.nodes[next].posY + 0.5f, 0);
+				if(p.nodes[next].isJump) {
+					int res = 12;
+					float radsPerRes = Mathf.PI / res;
+					Vector3 prevLoc = loc;
+					
+					Vector3 deltaLoc = (nextLoc - loc);
+					int dir = -(int)Mathf.Sign(deltaLoc.x);
+					Vector3 center = deltaLoc / 2 + loc;
+					if(deltaLoc.y == 0) {
+						for(int r = 0; r < res; r++) {
+							float ang = radsPerRes * r;
+							Vector3 jumpLoc = new Vector3(Mathf.Cos(ang) * distanceCanJump / 2 * dir, Mathf.Max(Mathf.Sin(ang) * heightCanJump - 1, loc.y - center.y), 0)  + center;
+							Debug.DrawLine(prevLoc, jumpLoc, renderColor);
+							prevLoc = jumpLoc;
+						}
+					}
+					Debug.DrawLine(loc, nextLoc, renderColor);
+				} else {
+					Debug.DrawLine(loc, nextLoc, renderColor);
+				}
+			}
+		}
 	}
 
 	public int MaxDistance {
