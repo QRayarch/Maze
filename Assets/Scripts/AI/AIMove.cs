@@ -51,9 +51,9 @@ public class AIMove : GridMove {
 				PathFinder.Node nextNode = path.nodes[currentNodeIndex + 1];
 				if(posX == currentNode.posX && posY == currentNode.posY) {
 					currentNodeIndex++;
-					Debug.Log("Next " + nextNode.posX + " " + nextNode.posY);
+					//Debug.Log("Next " + nextNode.posX + " " + nextNode.posY);
 				} else {
-					Debug.Log("Trying " + dir + " " + nextNode.isJump + " " + currentNode.isJump);
+					//Debug.Log("Trying " + dir + " " + nextNode.isJump + " " + currentNode.isJump);
 				}
 			}
 			move(dir, true);
