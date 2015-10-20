@@ -2571,9 +2571,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a47566b343916f448f08983a370529d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numTraps: {fileID: 0}
+  numTraps: {fileID: 2078990096}
   index: 0
-  traps: {fileID: 0}
+  traps: {fileID: 1300470565}
 --- !u!114 &1223932363
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2585,9 +2585,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a47566b343916f448f08983a370529d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numTraps: {fileID: 0}
-  index: 0
-  traps: {fileID: 0}
+  numTraps: {fileID: 58777267}
+  index: 2
+  traps: {fileID: 1300470565}
 --- !u!114 &1223932364
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2599,9 +2599,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a47566b343916f448f08983a370529d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numTraps: {fileID: 0}
-  index: 0
-  traps: {fileID: 0}
+  numTraps: {fileID: 693563192}
+  index: 1
+  traps: {fileID: 1300470565}
 --- !u!1 &1231148318
 GameObject:
   m_ObjectHideFlags: 0
@@ -2986,7 +2986,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be40e83943b19234384ae838e44f99ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trapHolders: []
+  trapHolders:
+  - numPerLevel: 5
+    trap: {fileID: 0}
+  - numPerLevel: 2
+    trap: {fileID: 0}
+  - numPerLevel: 1
+    trap: {fileID: 0}
 --- !u!4 &1300470566
 Transform:
   m_ObjectHideFlags: 0
@@ -4714,6 +4720,10 @@ Prefab:
     - target: {fileID: 178430, guid: 031d525827ca3fd4ab2271b6c126b0e2, type: 2}
       propertyPath: m_Name
       value: Player (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 11472676, guid: 031d525827ca3fd4ab2271b6c126b0e2, type: 2}
+      propertyPath: ground.m_Bits
+      value: 4294966783
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 031d525827ca3fd4ab2271b6c126b0e2, type: 2}
