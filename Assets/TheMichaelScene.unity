@@ -764,7 +764,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88e625f0ac3ca474faf3937e8142240e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stepTime: .5
+  stepTime: .800000012
 --- !u!4 &371124075
 Transform:
   m_ObjectHideFlags: 0
@@ -2571,9 +2571,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a47566b343916f448f08983a370529d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numTraps: {fileID: 58777267}
-  index: 2
-  traps: {fileID: 1300470565}
+  numTraps: {fileID: 0}
+  index: 0
+  traps: {fileID: 0}
 --- !u!114 &1223932363
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2585,9 +2585,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a47566b343916f448f08983a370529d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numTraps: {fileID: 693563192}
-  index: 1
-  traps: {fileID: 1300470565}
+  numTraps: {fileID: 0}
+  index: 0
+  traps: {fileID: 0}
 --- !u!114 &1223932364
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2599,9 +2599,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a47566b343916f448f08983a370529d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numTraps: {fileID: 2078990096}
+  numTraps: {fileID: 0}
   index: 0
-  traps: {fileID: 1300470565}
+  traps: {fileID: 0}
 --- !u!1 &1231148318
 GameObject:
   m_ObjectHideFlags: 0
@@ -2986,13 +2986,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be40e83943b19234384ae838e44f99ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trapHolders:
-  - numPerLevel: 5
-    trap: {fileID: 0}
-  - numPerLevel: 2
-    trap: {fileID: 0}
-  - numPerLevel: 1
-    trap: {fileID: 0}
+  trapHolders: []
 --- !u!4 &1300470566
 Transform:
   m_ObjectHideFlags: 0
@@ -3330,11 +3324,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   matForTiles: {fileID: 0}
-  brushes:
-  - sprite: {fileID: 21300000, guid: 30b3be1c52b458046b5a01b5f143af88, type: 3}
-    type: 2
-  - sprite: {fileID: 0}
-    type: 0
+  brushes: []
   selectedBrushIndex: 0
 --- !u!1 &1481540961
 GameObject:
@@ -4691,11 +4681,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 482868, guid: 031d525827ca3fd4ab2271b6c126b0e2, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 2.0999999
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 482868, guid: 031d525827ca3fd4ab2271b6c126b0e2, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 2.00999999
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 482868, guid: 031d525827ca3fd4ab2271b6c126b0e2, type: 2}
       propertyPath: m_LocalPosition.z
