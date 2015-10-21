@@ -33,10 +33,10 @@ public class EnemySpawner : MonoBehaviour {
 
 		//finish stuff
 		if(enemytype==0){
-			Instantiate (seeker, spawnPoint, Quaternion.identity);
+//			Instantiate (seeker, spawnPoint, Quaternion.identity);
 		}
 		if(enemytype==1){
-			Instantiate (artificer, spawnPoint, Quaternion.identity);
+//			Instantiate (artificer, spawnPoint, Quaternion.identity);
 		}
 		/*if(enemyType==0){
 			Instantiate (seeker, spawnPoint, Quaternion.identity);

@@ -398,6 +398,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 11472676, guid: 031d525827ca3fd4ab2271b6c126b0e2, type: 2}
+      propertyPath: jumpForce
+      value: 150
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 031d525827ca3fd4ab2271b6c126b0e2, type: 2}
   m_IsPrefabParent: 0
@@ -4466,10 +4470,6 @@ Prefab:
     - target: {fileID: 473882, guid: 9620643faf5fbc44cb2782b3e2154f2a, type: 2}
       propertyPath: m_RootOrder
       value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 120848, guid: 9620643faf5fbc44cb2782b3e2154f2a, type: 2}
-      propertyPath: m_Name
-      value: ParticleSystrem
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9620643faf5fbc44cb2782b3e2154f2a, type: 2}
