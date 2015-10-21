@@ -254,7 +254,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: .257352948, b: .257352948, a: 1}
   m_Sprite: {fileID: 21300000, guid: aaa58fc5345e70c49b35ae970f00cb82, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
@@ -274,6 +274,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9582c9017b7174449865137e39cd4cb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spawnOnDeath: {fileID: 120848, guid: 9620643faf5fbc44cb2782b3e2154f2a, type: 2}
 --- !u!114 &11450024
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -426,7 +427,7 @@ RectTransform:
   m_GameObject: {fileID: 163120}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.20000005, y: 1.20000005, z: 1}
   m_Children:
   - {fileID: 22495800}
   m_Father: {fileID: 22400598}

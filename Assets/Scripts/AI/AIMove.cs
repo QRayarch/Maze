@@ -53,16 +53,18 @@ public class AIMove : Move {
 				if(posX == currentNode.posX && posY >= currentNode.posY) {
 					shouldChangeDir = false;
 				}
+				//We are at the node position. Find next node
 				if(posX == currentNode.posX && posY == currentNode.posY) {
 					currentNodeIndex++;
-					//Debug.Log("Next. " + currentNode.posX + " " + currentNode.posY);
+				} else if(posX == currentNode.posX && posY == nextNode.posY) {
+					currentNodeIndex++;
 				}
 			}
 			if(shouldChangeDir) {
 				moveDir = currentNode.posX - posX;
 				//Smooth the apprach
 				float dist = Vector3.Distance(trans.position, new Vector3(currentNode.posX + 0.5f, currentNode.posY + 0.5f, 0.0f));
-				moveDir /= dist;
+				moveDir /= (dist * 1.8f);
 			}
 			move(moveDir, isJump);
 		}

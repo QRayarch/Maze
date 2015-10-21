@@ -83,11 +83,9 @@ public class TrapPlacer : MonoBehaviour {
 		bool canPlace = false;
 		if(isPlacingTrap && grid != null) {
 			//Get grid pos
-			int x = (int)(trans.position.x - 0.5f);
-			int y = (int)(trans.position.y - 0.5f);
+			int x = Mathf.RoundToInt(trans.position.x - 0.5f + Mathf.Sign(trans.localScale.x) * 1.5f);
+			int y = (int)(trans.position.y - 0.5f) + 1;
 
-			//Add one in the direction we are facing
-			x += (int)Mathf.Sign(trans.localScale.x);
 
 			if(grid.IsInGridBounds(x, y)) {
 				//Can't hit the square we want to place in
@@ -102,10 +100,23 @@ public class TrapPlacer : MonoBehaviour {
 				}
 			}
 
+
+
 			if(canPlace && !couldPlace) {
 				SetRenderMaterialsColor(canPlaceColor);
 			} else if(!canPlace && couldPlace) {
 				SetRenderMaterialsColor(canNotPlaceColor);
+				Vector3 pos = trapPlacing.transform.localPosition;
+				pos.y = 0;
+				trapPlacing.transform.localPosition = pos;
+			}
+
+			if(canPlace) {
+				Vector3 pos = trapPlacing.transform.localPosition;
+				pos.y = 1 + (y - (trans.position.y - 0.5f));
+				trapPlacing.transform.localPosition = pos;
+				
+				Debug.Log(y + " " + (trans.position.y -0.5f) + " " + (y - (trans.position.y - 0.5f)) + " =?= " + pos.y);
 			}
 
 		   couldPlace = canPlace;
