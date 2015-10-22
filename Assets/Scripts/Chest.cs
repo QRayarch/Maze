@@ -26,12 +26,14 @@ public class Chest : MonoBehaviour {
 		} else {
 			KeyHolder keyHolder = other.gameObject.GetComponent<KeyHolder>();
 			if(keyHolder != null) {
-				PlayAnimationTrigger("chestOpen");
-
-				if(hasKey) {
-					keyHolder.obtainKey();
+				if(!keyHolder.hasKey ()) {
+					PlayAnimationTrigger("chestOpen");
+					
+					if(hasKey) {
+						keyHolder.obtainKey();
+					}
+					opened = true;
 				}
-				opened = true;
 			}
 
 		}
