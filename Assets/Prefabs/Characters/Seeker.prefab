@@ -200,7 +200,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 6
-  jumpForce: 100
+  jumpForce: 150
   grounded: 0
   groundCheck: {fileID: 466170}
   ground:

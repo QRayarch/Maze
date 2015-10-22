@@ -56,6 +56,9 @@ public class TrapPlacer : MonoBehaviour {
 
 					Destroy(trapPlacing.transform.gameObject);
 				} else {
+					if(trapPlacing.transform != null) {
+						Destroy(trapPlacing.transform.gameObject);
+					}
 					isPlacingTrap = true;
 					didAction = true;
 
@@ -116,7 +119,7 @@ public class TrapPlacer : MonoBehaviour {
 				pos.y = 1 + (y - (trans.position.y - 0.5f));
 				trapPlacing.transform.localPosition = pos;
 				
-				Debug.Log(y + " " + (trans.position.y -0.5f) + " " + (y - (trans.position.y - 0.5f)) + " =?= " + pos.y);
+				//Debug.Log(y + " " + (trans.position.y -0.5f) + " " + (y - (trans.position.y - 0.5f)) + " =?= " + pos.y);
 			}
 
 		   couldPlace = canPlace;
@@ -138,6 +141,7 @@ public class TrapPlacer : MonoBehaviour {
 				trapHolder.numPerLevel--;
 				levelTraps.trapHolders[trapPlacing.trapIndexPlacing] = trapHolder;
 				isPlacingTrap = false;
+				trapPlacing.transform = null;
 			}
 		}
 	}
