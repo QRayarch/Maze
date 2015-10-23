@@ -19,7 +19,7 @@ public class UICount : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (traps.trapHolders != null) {
-			numTraps.text = prefix + traps.trapHolders [index].numPerLevel.ToString();
+			numTraps.text = "X "+prefix + traps.trapHolders [index].numPerLevel.ToString();
 		}
 	}
 }

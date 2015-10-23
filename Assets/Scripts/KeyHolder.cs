@@ -5,7 +5,6 @@ public class KeyHolder : MonoBehaviour
 {
 	public GameObject keyIndicator;
 	private bool holdingKey = false;
-	//public GameObject key;
 
 	// Use this for initialization
 	void Start ()
@@ -13,7 +12,9 @@ public class KeyHolder : MonoBehaviour
 		if(keyIndicator != null) {
 			keyIndicator.SetActive(false);
 		}
+
 		GetComponent<Health>().OnDeath += dropKey;
+
 	}
 	
 	// Update is called once per frame
@@ -32,7 +33,9 @@ public class KeyHolder : MonoBehaviour
 	}
 
 	public void dropKey() {
-		//Instantiate (key, transform.position, Quaternion.identity);
+		if (holdingKey) {
+			Instantiate (Resources.Load ("key"), transform.position, Quaternion.identity);
+		}
 	}
 
 }
