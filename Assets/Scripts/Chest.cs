@@ -45,4 +45,8 @@ public class Chest : MonoBehaviour {
 		animator.SetTrigger(trigger);
 	}
 
+
+	public bool HasOpened {
+		get{ return opened; }
+	}
 }

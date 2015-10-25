@@ -2,6 +2,7 @@
 using System.Collections;
 
 [RequireComponent(typeof(PathFinder))]
+[RequireComponent(typeof(KeyHolder))]
 public class AIMove : Move {
 
 	[Header("Pathfinding Config")]
@@ -10,6 +11,7 @@ public class AIMove : Move {
 	public int maxSearchDistance = 40;
 
 	private PathFinder pathFinder;
+	private KeyHolder holder;
 	private Transform trans;
 	private int posX;
 	private int posY;
@@ -26,6 +28,9 @@ public class AIMove : Move {
 		pathFinder.DistanceCanJump = heightCanJump;
 		pathFinder.HeightCanJump = distanceCanJump;
 		pathFinder.MaxDistance = maxSearchDistance;
+
+		holder = GetComponent<KeyHolder>();
+
 		trans = transform;
 	}
 	
@@ -70,12 +75,35 @@ public class AIMove : Move {
 		}
 
 		if(pathFinder != null) {
+			if(path == null) {
+				Vector3 gotoPos= Vector3.zero;
+				Key key = GameObject.FindObjectOfType<Key>();
+				if(key != null) {
+					gotoPos = key.transform.position;
+				} else if(holder.hasKey()) {
+					Door door = GameObject.FindObjectOfType<Door>();
+					gotoPos = door.transform.position;
+				} else {
+					Chest[] chests = GameObject.FindObjectsOfType<Chest>();
+					//Try to find a random unopened chest with a max tries of 100
+					for(int c = 0; c < 100; c++) {
+						int i = Random.Range(0, chests.Length);
+						if(!chests[i].HasOpened) {
+							gotoPos = chests[i].transform.position;
+							continue;
+						}
+					}
+				}
+				path = pathFinder.FindPath(trans.position, gotoPos);
+				currentNodeIndex = 0;
+			}
+			/*
 			if(Input.GetMouseButton(0)) {
 				if(Camera.current != null) {
 					path = pathFinder.FindPath(trans.position, Camera.current.ScreenToWorldPoint(Input.mousePosition));
 					currentNodeIndex = 0;
 				}
-			}
+			}*/
 			pathFinder.DebugDrawPath(path);
 		}
 	}
