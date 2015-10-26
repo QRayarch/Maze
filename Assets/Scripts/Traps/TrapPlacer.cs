@@ -84,7 +84,7 @@ public class TrapPlacer : MonoBehaviour {
 
 		//Check trap placment
 		bool canPlace = false;
-		if(isPlacingTrap && grid != null) {
+		if(isPlacingTrap && grid != null && levelTraps.trapHolders[trapPlacing.trapIndexPlacing].CanPlace) {
 			//Get grid pos
 			int x = Mathf.RoundToInt(trans.position.x - 0.5f + Mathf.Sign(trans.localScale.x) * 1.5f);
 			int y = (int)(trans.position.y - 0.5f) + 1;
@@ -142,6 +142,7 @@ public class TrapPlacer : MonoBehaviour {
 				levelTraps.trapHolders[trapPlacing.trapIndexPlacing] = trapHolder;
 				isPlacingTrap = false;
 				trapPlacing.transform = null;
+				levelTraps.trapHolders[trapPlacing.trapIndexPlacing].Use();
 			}
 		}
 	}

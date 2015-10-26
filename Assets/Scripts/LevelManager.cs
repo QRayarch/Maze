@@ -18,4 +18,8 @@ public class LevelManager : MonoBehaviour {
 			Application.LoadLevel ("WinScreen");
 		}
 	}
+
+	public void LoadLevel() {
+		Application.LoadLevel("MichaelDemoLevel");
+	}
 }
