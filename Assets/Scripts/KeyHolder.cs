@@ -1,9 +1,12 @@
 using UnityEngine;
 using System.Collections;
 
+public delegate void OnKeyPickedUp();
+
 public class KeyHolder : MonoBehaviour
 {
 	public GameObject keyIndicator;
+	private event OnKeyPickedUp onKeyPickedUp;
 	private bool holdingKey = false;
 
 	// Use this for initialization
@@ -26,6 +29,9 @@ public class KeyHolder : MonoBehaviour
 	public void obtainKey() {
 		holdingKey = true;
 		keyIndicator.SetActive(true);
+		if(onKeyPickedUp != null) {
+			onKeyPickedUp.Invoke();
+		}
 	}
 
 	public bool hasKey() {
@@ -38,5 +44,9 @@ public class KeyHolder : MonoBehaviour
 		}
 	}
 
+	public OnKeyPickedUp OnKeyPickedUp {
+		get{ return onKeyPickedUp; }
+		set{ onKeyPickedUp = value; }
+	}
 }
 

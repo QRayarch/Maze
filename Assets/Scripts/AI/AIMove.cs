@@ -10,6 +10,9 @@ public class AIMove : Move {
 	public int distanceCanJump = 3;
 	public int maxSearchDistance = 40;
 
+	public float timeStuckBeforeNewPath = 4;
+	private float stuckTimer;
+
 	private PathFinder pathFinder;
 	private KeyHolder holder;
 	private Transform trans;
@@ -30,6 +33,7 @@ public class AIMove : Move {
 		pathFinder.MaxDistance = maxSearchDistance;
 
 		holder = GetComponent<KeyHolder>();
+		holder.OnKeyPickedUp += KeyPickedUp;
 
 		trans = transform;
 	}
@@ -37,8 +41,15 @@ public class AIMove : Move {
 	// Update is called once per frame
 	void Update () {
 
+		int oldX = posX;
+		int oldY = posY;
+
 		posX = (int)(trans.position.x);
 		posY = (int)(trans.position.y);
+
+		if(oldX == posX && oldY == posY) {
+			stuckTimer += Time.deltaTime;
+		}
 
 		if(path != null) {
 			PathFinder.Node currentNode = path.nodes[currentNodeIndex];
@@ -61,17 +72,23 @@ public class AIMove : Move {
 				//We are at the node position. Find next node
 				if(posX == currentNode.posX && posY == currentNode.posY) {
 					currentNodeIndex++;
+					stuckTimer = 0;
 				} else if(posX == currentNode.posX && posY == nextNode.posY) {
 					currentNodeIndex++;
+					stuckTimer = 0;
 				}
 			}
 			if(shouldChangeDir) {
 				moveDir = currentNode.posX - posX;
 				//Smooth the apprach
 				float dist = Vector3.Distance(trans.position, new Vector3(currentNode.posX + 0.5f, currentNode.posY + 0.5f, 0.0f));
-				moveDir /= (dist * 1.8f);
+				moveDir /= (dist * 1.4f);
 			}
 			move(moveDir, isJump);
+		}
+
+		if(stuckTimer >= timeStuckBeforeNewPath) {
+			path = null;
 		}
 
 		if(pathFinder != null) {
@@ -106,5 +123,9 @@ public class AIMove : Move {
 			}*/
 			pathFinder.DebugDrawPath(path);
 		}
+	}
+
+	private void KeyPickedUp() {
+		path = null;
 	}
 }
