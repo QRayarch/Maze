@@ -8,15 +8,16 @@ public class EnemySpawner : MonoBehaviour {
 	public List<int> enemyTypes=new List<int>();
 	public GameObject seeker;
 	public GameObject artificer;
-	public float firstSpawnDelay=30;
+	public float firstSpawnDelay=10;
 	public float numFirstSpawn;
 	bool firstSpawn;
 
-	float stepTimer=-30;
+	float stepTimer;
 	public float spawnDelay=10;
 
 	// Use this for initialization
 	void Start () {
+		stepTimer -= firstSpawnDelay;
 		firstSpawn = true;
 	}
 	
