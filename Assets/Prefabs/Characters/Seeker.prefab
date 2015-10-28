@@ -199,8 +199,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06eb940d00980de43a922fb3ca6a7cab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 6
-  jumpForce: 150
+  speed: 7
+  jumpForce: 180
   grounded: 0
   groundCheck: {fileID: 466170}
   ground:
@@ -209,6 +209,7 @@ MonoBehaviour:
   heightCanJump: 3
   distanceCanJump: 3
   maxSearchDistance: 40
+  timeStuckBeforeNewPath: 2
 --- !u!114 &11425210
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -468,6 +469,18 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_LocalPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: timeStuckBeforeNewPath
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: speed
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: jumpForce
+      value: 180
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

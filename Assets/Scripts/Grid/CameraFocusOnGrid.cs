@@ -25,10 +25,17 @@ public class CameraFocusOnGrid : MonoBehaviour {
 	public void Focus() {
 		Transform gridT = grid.transform;
 		Vector3 pos = trans.position;
-		pos.x = gridT.position.x + grid.GridWidth / 2 + 0.5f;
-		pos.y = gridT.position.y + grid.GridHeight / 2 + 0.5f;
-		trans.position = pos;
+		if(grid.GridWidth > grid.GridHeight) {
+			cam.orthographicSize = (grid.GridWidth / 2.0f) / cam.aspect + 1;
+		} else {
+			cam.orthographicSize = grid.GridHeight / 2.0f + 1;
+		}
 
-		cam.orthographicSize = grid.GridHeight / 2.0f;
+		float extraWidth = (cam.orthographicSize * cam.aspect) -  (grid.GridWidth / 2);
+		Debug.Log(extraWidth);
+		pos.x = gridT.position.x + (grid.GridWidth / 2) - extraWidth;
+		pos.y = gridT.position.y + grid.GridHeight / 2;
+
+		trans.position = pos;
 	}
 }
