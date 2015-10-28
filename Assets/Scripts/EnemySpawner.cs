@@ -26,7 +26,7 @@ public class EnemySpawner : MonoBehaviour {
 		stepTimer += Time.deltaTime;
 		if(stepTimer >= spawnDelay) {
 			if(firstSpawn){
-				for(int i=0; i<(numFirstSpawn+1);i++){
+				for(int i=0; i<numFirstSpawn;i++){
 					spawnEnemy();
 					firstSpawn=false;
 				}
