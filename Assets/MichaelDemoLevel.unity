@@ -8484,7 +8484,7 @@ RectTransform:
   m_Children:
   - {fileID: 1296183060}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
@@ -8523,7 +8523,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35218acefa1ec664892373bb5ca0916a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numStartSpawn: 3
   spawnPoints:
   - {x: 2, y: 18, z: 0}
   - {x: 28, y: 18, z: 0}
@@ -8534,6 +8533,9 @@ MonoBehaviour:
   enemyTypes: 000000000000000000000000000000000000000000000000
   seeker: {fileID: 140964, guid: cce1e6725371de44cbf27d09c5c7b56c, type: 2}
   artificer: {fileID: 0}
+  firstSpawnDelay: 30
+  numFirstSpawn: 3
+  spawnDelay: 10
 --- !u!1 &1321619900
 GameObject:
   m_ObjectHideFlags: 0
@@ -9168,6 +9170,7 @@ MonoBehaviour:
   trapHolders:
   - numPerLevel: 30
     trap: {fileID: 11438710, guid: f85e94465d056254c84e8029e893f4a1, type: 2}
+    coolDownTime: 0
 --- !u!4 &1431094726
 Transform:
   m_ObjectHideFlags: 0
@@ -10107,7 +10110,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
 --- !u!1 &1568181691
 GameObject:
   m_ObjectHideFlags: 0
@@ -10547,6 +10550,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   numTraps: {fileID: 1578626150}
+  slider: {fileID: 0}
   index: 2
   prefix: 
 --- !u!114 &1601613700
@@ -10561,6 +10565,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   numTraps: {fileID: 1165747605}
+  slider: {fileID: 0}
   index: 1
   prefix: 
 --- !u!114 &1601613701
@@ -10575,6 +10580,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   numTraps: {fileID: 1118829538}
+  slider: {fileID: 0}
   index: 0
   prefix: 
 --- !u!114 &1601613702
