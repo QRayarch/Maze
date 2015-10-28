@@ -3,28 +3,36 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class EnemySpawner : MonoBehaviour {
-
-	public int numStartSpawn;
+	
 	public List<Vector3> spawnPoints=new List<Vector3>();
 	public List<int> enemyTypes=new List<int>();
 	public GameObject seeker;
 	public GameObject artificer;
+	public float firstSpawnDelay=30;
+	public float numFirstSpawn;
+	bool firstSpawn;
 
-	float stepTimer;
-	float stepTime=10;
+	float stepTimer=-30;
+	public float spawnDelay=10;
 
 	// Use this for initialization
 	void Start () {
-		for (int i=0; i<3; i++) {
-			spawnEnemy ();
-		}
+		firstSpawn = true;
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		stepTimer += Time.deltaTime;
-		if(stepTimer >= stepTime) {
-			spawnEnemy();
+		if(stepTimer >= spawnDelay) {
+			if(firstSpawn){
+				for(int i=0; i<(numFirstSpawn+1);i++){
+					spawnEnemy();
+					firstSpawn=false;
+				}
+			}
+			else{
+				spawnEnemy ();
+			}
 		}
 	}
 
