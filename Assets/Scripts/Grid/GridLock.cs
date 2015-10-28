@@ -1,9 +1,9 @@
-﻿#if (UNITY_EDITOR)
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 
 [ExecuteInEditMode]
 public class GridLock : MonoBehaviour {
+	#if (UNITY_EDITOR)
 	private Transform trans;
 
 	// Use this for initialization
@@ -24,5 +24,5 @@ public class GridLock : MonoBehaviour {
 		pos.y = Mathf.RoundToInt(pos.y - 0.5f) + 0.5f;
 		trans.position = pos;
 	}
+	#endif
 }
-#endif

@@ -61,7 +61,6 @@ public class AIMove : Move {
 				if(posX == currentNode.posX && posY == currentNode.posY) {
 					path = null;
 					currentNodeIndex = 0;
-					Debug.Log("Finished");
 				}
 			} else {
 				PathFinder.Node nextNode = path.nodes[currentNodeIndex + 1];
@@ -101,13 +100,27 @@ public class AIMove : Move {
 					Door door = GameObject.FindObjectOfType<Door>();
 					gotoPos = door.transform.position;
 				} else {
+					bool foundChest = false;
 					Chest[] chests = GameObject.FindObjectsOfType<Chest>();
 					//Try to find a random unopened chest with a max tries of 100
-					for(int c = 0; c < 100; c++) {
+					for(int c = 0; c < 10; c++) {
 						int i = Random.Range(0, chests.Length);
 						if(!chests[i].HasOpened) {
 							gotoPos = chests[i].transform.position;
+							foundChest = true;
 							continue;
+						}
+					}
+					if(!foundChest) {
+						Vector3 randomPos = Vector3.zero;
+						randomPos.x = Random.Range(0, grid.GridWidth);
+						randomPos.y = Random.Range(0, grid.GridHeight);
+
+						randomPos.y = pathFinder.FallTillGround((int)randomPos.x, (int)randomPos.y);
+						if(!grid.IsGridSpaceCollidable((int)randomPos.x, (int)randomPos.y)) {
+							randomPos.x += 0.5f;
+							randomPos.y += 0.5f;
+							gotoPos = randomPos;
 						}
 					}
 				}

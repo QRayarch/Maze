@@ -167,7 +167,7 @@ public class PathFinder : MonoBehaviour {
 		return p2;
 	}
 
-	private int FallTillGround(int x, int y) {
+	public int FallTillGround(int x, int y) {
 		if(grid == null || !grid.IsInGridBounds(x, y)) return y;
 		while(y >= 0 && grid.IsInGridBounds(x, y - 1) && !grid.IsGridSpaceCollidable(x, y - 1)) {
 			y -= 1;

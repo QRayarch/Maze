@@ -32,7 +32,6 @@ public class CameraFocusOnGrid : MonoBehaviour {
 		}
 
 		float extraWidth = (cam.orthographicSize * cam.aspect) -  (grid.GridWidth / 2);
-		Debug.Log(extraWidth);
 		pos.x = gridT.position.x + (grid.GridWidth / 2) - extraWidth;
 		pos.y = gridT.position.y + grid.GridHeight / 2;
 

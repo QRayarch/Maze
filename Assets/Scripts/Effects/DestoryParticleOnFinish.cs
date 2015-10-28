@@ -15,7 +15,6 @@ public class DestoryParticleOnFinish : MonoBehaviour {
 	void Update () {
 		if(!partSystem.IsAlive()) {
 			Destroy(gameObject);
-			Debug.Log("DEAD");
 		}
 	}
 }
