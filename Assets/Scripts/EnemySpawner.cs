@@ -9,6 +9,8 @@ public class EnemySpawner : MonoBehaviour {
 	public List<int> enemyTypes=new List<int>();
 	public GameObject seeker;
 	public GameObject artificer;
+	public GameObject fighter;
+	public GameObject portal;
 	public float firstSpawnDelay=10;
 	public float numFirstSpawn;
 
@@ -49,16 +51,18 @@ public class EnemySpawner : MonoBehaviour {
 		Vector3 spawnPoint = spawnPoints [index];
 
 		index++;
-
+		if(portal != null) {
+			Instantiate(portal, spawnPoint, Quaternion.identity);
+		}
 		//finish stuff
 		if(enemytype==0 && seeker != null){
 			Instantiate (seeker, spawnPoint, Quaternion.identity);
 		}
 		if(enemytype==1){
-			//Instantiate (artificer, spawnPoint, Quaternion.identity);
+			Instantiate (artificer, spawnPoint, Quaternion.identity);
 		}
-		/*if(enemyType==0){
-			Instantiate (seeker, spawnPoint, Quaternion.identity);
-		}*/
+		if(enemytype==2){
+			Instantiate (fighter, spawnPoint, Quaternion.identity);
+		}
 	}
 }

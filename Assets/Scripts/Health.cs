@@ -7,6 +7,8 @@ public class Health : MonoBehaviour {
 
 	public int maxHealth;
 
+	public GameObject onHitSpawn;
+
 	private event OnDie onDeath;
 	private int health;
 
@@ -27,6 +29,10 @@ public class Health : MonoBehaviour {
 
 		bool wasDead = IsDead;
 		health = Mathf.Clamp(health - d, 0, maxHealth);
+
+		if(!IsDead && onHitSpawn != null) {
+			Instantiate(onHitSpawn, transform.position, Quaternion.identity);
+		}
 
 		if(IsDead && !wasDead) {
 			if(onDeath != null) {

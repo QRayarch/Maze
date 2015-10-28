@@ -49,7 +49,7 @@ GameObject:
   - 58: {fileID: 5876264}
   - 114: {fileID: 11425210}
   m_Layer: 10
-  m_Name: Seeker
+  m_Name: Fighter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -114,8 +114,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 109666}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -.0970000029, z: 0}
-  m_LocalScale: {x: .154785573, y: .154785559, z: .154785559}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: .140000001, y: .140000001, z: .189999998}
   m_Children: []
   m_Father: {fileID: 480582}
   m_RootOrder: 0
@@ -138,7 +138,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 140964}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 20.5, y: 16.5, z: 0}
+  m_LocalPosition: {x: 19.5, y: 16.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 448382}
@@ -199,7 +199,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06eb940d00980de43a922fb3ca6a7cab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 7
+  speed: 6
   jumpForce: 180
   grounded: 0
   groundCheck: {fileID: 466170}
@@ -335,7 +335,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7837062a406d10a4097d77b232fcea84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 1
+  maxHealth: 3
   onHitSpawn: {fileID: 168786, guid: 6cbc7bc96f08ed44f9eded9b1e8cf4c8, type: 2}
 --- !u!114 &11486650
 MonoBehaviour:
@@ -372,7 +372,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: a743af1b15d30cf44b5c4382ffc35e60, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 12be69e3312ee934da68876502b46e71, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!222 &22201790
 CanvasRenderer:
@@ -477,11 +477,15 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: speed
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: jumpForce
       value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: maxHealth
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

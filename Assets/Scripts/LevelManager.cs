@@ -3,6 +3,7 @@ using System.Collections;
 
 public class LevelManager : MonoBehaviour {
 
+	public string levelName = "MichaelDemoLevel";
 
 	// Use this for initialization
 	void Start () {
@@ -13,9 +14,9 @@ public class LevelManager : MonoBehaviour {
 	void Update () {
 		if (Application.loadedLevelName == "StartScreen" && Input.GetKeyDown ("return")) {
 			//int i=Application.loadedLevel;
-			Application.LoadLevel ("MichaelDemoLevel");
+			Application.LoadLevel (levelName);
 		}
-		if (Application.loadedLevelName == "MichaelDemoLevel") {
+		if (Application.loadedLevelName == levelName) {
 			int numSpawns = GameObject.FindObjectOfType<EnemySpawner>().spawnPoints.Count;
 			KeyHolder[] enemies = GameObject.FindObjectsOfType<KeyHolder>();
 			
@@ -34,7 +35,7 @@ public class LevelManager : MonoBehaviour {
 	}
 
 	public void LoadLevel() {
-		Application.LoadLevel("MichaelDemoLevel");
+		Application.LoadLevel(levelName);
 		//Application.LoadLevel ("WinScreen");
 		//Application.LoadLevel ("LoseSceen");
 	}
