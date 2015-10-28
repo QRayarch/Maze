@@ -41,5 +41,9 @@ public class Door : MonoBehaviour
 		animator.SetTrigger(trigger);
 	}
 
+	public bool getLocked() {
+		return locked;
+	}
+
 }
 

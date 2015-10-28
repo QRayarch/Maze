@@ -32,7 +32,9 @@ public class EnemySpawner : MonoBehaviour {
 				}
 			}
 			else{
-				spawnEnemy ();
+				if(enemyTypes.Count > 0) {
+					spawnEnemy ();
+				}
 			}
 		}
 	}
